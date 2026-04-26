@@ -1,1 +1,118 @@
+name: Metrics
+on:
+  # Her 6 saatte bir otomatik güncellensin
+  schedule: [{cron: "0 */6 * * *"}]
+  # main branch'e her push'ta da yenilensin
+  push: {branches: ["main", "master"]}
+  # Manuel olarak da tetikleyebilesin
+  workflow_dispatch:
 
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # --------------------------------------------------------
+      # 1) Genel görünüm (klasik kart) — animasyonlu
+      # --------------------------------------------------------
+      - name: Genel Metrikler
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Europe/Istanbul
+          config_animations: yes
+          config_padding: 0, 8 + 11%
+
+      # --------------------------------------------------------
+      # 2) İzometrik commit takvimi — 3D animasyonlu calendar
+      # --------------------------------------------------------
+      - name: İzometrik Takvim
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.isocalendar.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          base: ""
+          config_timezone: Europe/Istanbul
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+
+      # --------------------------------------------------------
+      # 3) Kullandığın diller — yüzdeli grafik
+      # --------------------------------------------------------
+      - name: Kullandığım Diller
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.languages.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          base: ""
+          config_timezone: Europe/Istanbul
+          plugin_languages: yes
+          plugin_languages_ignored: html, css, tex, less, dockerfile, makefile, qmake, lex, cmake, gnuplot
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+          plugin_languages_analysis_timeout: 15
+
+      # --------------------------------------------------------
+      # 4) Kodlama alışkanlıkları (saatler / günler / dosya türleri)
+      # --------------------------------------------------------
+      - name: Kodlama Alışkanlıkları
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.habits.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          base: ""
+          config_timezone: Europe/Istanbul
+          plugin_habits: yes
+          plugin_habits_facts: yes
+          plugin_habits_charts: yes
+          plugin_habits_trim: yes
+
+      # --------------------------------------------------------
+      # 5) Achievements (rozetler) — kompakt görünüm
+      # --------------------------------------------------------
+      - name: Başarılar
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.achievements.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          base: ""
+          config_timezone: Europe/Istanbul
+          plugin_achievements: yes
+          plugin_achievements_threshold: C
+          plugin_achievements_secrets: yes
+          plugin_achievements_display: compact
+
+      # --------------------------------------------------------
+      # 6) Followup — issue ve PR durumun
+      # --------------------------------------------------------
+      - name: Issues & PR Durumu
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.followup.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          base: ""
+          config_timezone: Europe/Istanbul
+          plugin_followup: yes
+
+      # --------------------------------------------------------
+      # 7) Terminal görünümlü kart — bonus stil
+      # --------------------------------------------------------
+      - name: Terminal Görünüm
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.terminal.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: huseyinelmuhaammed
+          template: terminal
+          base: header, activity, community, repositories, metadata
+          config_timezone: Europe/Istanbul
