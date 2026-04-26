@@ -18,6 +18,7 @@ jobs:
       # --------------------------------------------------------
       - name: Genel Metrikler
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -33,6 +34,7 @@ jobs:
       # --------------------------------------------------------
       - name: İzometrik Takvim
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.plugin.isocalendar.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -47,6 +49,7 @@ jobs:
       # --------------------------------------------------------
       - name: Kullandığım Diller
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.plugin.languages.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -64,38 +67,50 @@ jobs:
       # --------------------------------------------------------
       - name: Kodlama Alışkanlıkları
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.plugin.habits.svg
           token: ${{ secrets.METRICS_TOKEN }}
           user: huseyinelmuhaammed
           base: ""
           config_timezone: Europe/Istanbul
+          retries: 3
+          retries_delay: 30
           plugin_habits: yes
+          plugin_habits_from: 200
+          plugin_habits_days: 14
           plugin_habits_facts: yes
           plugin_habits_charts: yes
+          plugin_habits_charts_type: classic
           plugin_habits_trim: yes
+          plugin_habits_languages_limit: 0
 
       # --------------------------------------------------------
       # 5) Achievements (rozetler) — kompakt görünüm
       # --------------------------------------------------------
       - name: Başarılar
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.plugin.achievements.svg
           token: ${{ secrets.METRICS_TOKEN }}
           user: huseyinelmuhaammed
           base: ""
           config_timezone: Europe/Istanbul
+          retries: 3
+          retries_delay: 30
           plugin_achievements: yes
           plugin_achievements_threshold: C
-          plugin_achievements_secrets: yes
+          plugin_achievements_secrets: no
           plugin_achievements_display: compact
+          plugin_achievements_limit: 0
 
       # --------------------------------------------------------
       # 6) Followup — issue ve PR durumun
       # --------------------------------------------------------
       - name: Issues & PR Durumu
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.plugin.followup.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -109,6 +124,7 @@ jobs:
       # --------------------------------------------------------
       - name: Terminal Görünüm
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           filename: metrics.terminal.svg
           token: ${{ secrets.METRICS_TOKEN }}
